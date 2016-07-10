@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.rap.addons.texteditor.javascript
+Bundle-Vendor: Plugbee
+Bundle-Version: 0.9.0.qualifier
+Bundle-SymbolicName: org.eclipse.rap.addons.texteditor.javascript;singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.rap.ui,
+ org.eclipse.rap.addons.texteditor,
+ org.eclipse.rap.addons.basictext
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Activator: org.eclipse.rap.addons.texteditor.javascript.internal.Activator
+Export-Package: org.eclipse.rap.addons.texteditor.javascript,
+ org.eclipse.rap.addons.texteditor.javascript.widget
+Import-Package: org.apache.log4j

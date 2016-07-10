@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.rap.addons.texteditor.feature_0.9.0.qualifier.jar" id="org.eclipse.rap.addons.texteditor.feature" version="0.9.0.qualifier">
+      <category name="texteditor.category"/>
+   </feature>
+   <category-def name="texteditor.category" label="Text Editor Feature (Incubation)">
+      <description>
+         Online Text Editors under Eclipse RAP.
+      </description>
+   </category-def>
+</site>
