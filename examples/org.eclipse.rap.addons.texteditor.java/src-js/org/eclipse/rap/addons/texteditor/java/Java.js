@@ -64,7 +64,8 @@
 					editor.setBehavioursEnabled(true);
 					editor.setWrapBehavioursEnabled(true);
 					editor.$blockScrolling = Infinity;
-										
+					this.setFont("10px");
+					
 					//Configure content assist feature
 					this.langTools = ace.require("ace/ext/language_tools");
 					this.editor.setOptions({
@@ -159,8 +160,7 @@
 
 			destroy : function() {
 				this.base(arguments);
-			},
-			
+			},			
 		}
 	});
 	

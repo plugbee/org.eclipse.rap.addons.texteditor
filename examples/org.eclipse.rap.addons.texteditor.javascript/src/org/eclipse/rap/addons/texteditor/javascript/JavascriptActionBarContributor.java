@@ -12,9 +12,9 @@
  */
 package org.eclipse.rap.addons.texteditor.javascript;
 
-import org.eclipse.ui.part.EditorActionBarContributor;
+import org.eclipse.rap.addons.texteditor.BasicTextEditorContributor;
 
-public class JavascriptActionBarContributor extends EditorActionBarContributor {
+public class JavascriptActionBarContributor extends BasicTextEditorContributor {
 
 	public JavascriptActionBarContributor() {
 		// TODO Auto-generated constructor stub

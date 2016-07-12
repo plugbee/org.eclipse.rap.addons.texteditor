@@ -35,7 +35,7 @@ public class TextEditorDemoWindowAdvisor extends WorkbenchWindowAdvisor {
 		getWindowConfigurer().setShowStatusLine(true);
 		getWindowConfigurer().setShowMenuBar(true);
 		getWindowConfigurer().setShowCoolBar(true);
-		getWindowConfigurer().setTitle("Online Text Editor Demo");
+		getWindowConfigurer().setTitle("Online Styled Text Editor");
 	}
 
 	@Override

@@ -62,8 +62,8 @@ public class BasicText extends Composite {
 	
 	private final BasicTextOperationHandler operationHandler = new BasicTextOperationHandler(this);
 	private RemoteObject remoteObject;
+	private String url;
 	private List<IPath> resources = new ArrayList<IPath>();
-	private String url = "";
 	private String status = "";
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private List<String> scope = new ArrayList<String>();
@@ -968,6 +968,16 @@ public class BasicText extends Composite {
 		return (style & SWT.READ_ONLY) == 0;
 	}
 
+	/**
+	 * Get the url
+	 * 
+	 * @return the url
+	 */
+	public String getURL() {
+		checkWidget();
+		return url;
+	}
+	
 	/**
 	 * Get the text value
 	 * 

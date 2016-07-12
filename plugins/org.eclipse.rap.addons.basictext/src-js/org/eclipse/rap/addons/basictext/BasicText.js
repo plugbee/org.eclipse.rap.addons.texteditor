@@ -315,13 +315,13 @@
 			setProposals : function(proposals) {
 				this.proposals = proposals;	
 			},
-			
-			//'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro'
-			//font = 14px Verdana, "Lucida Sans", Arial, Helvetica, sans-serif
+
+			//ex: font = "14px Verdana, "Lucida Sans", Arial, Helvetica, sans-serif"
 			setFont : function(font) {
 				if (this.ready) {
 					this.editor.setOptions({fontFamily: "Menlo, monospace"});
-					this.editor.setFontSize(16);
+					var size = font.substring(0,font.indexOf("px"))
+					this.editor.setFontSize(size);
 				}
 				else {
 			        this._font = font;
@@ -421,7 +421,7 @@
 					this.editor.setOptions({
 					    enableBasicAutocompletion: true
 					});
-					
+
 					//Set the Id of this editor
 					var guid = this._url;
 					

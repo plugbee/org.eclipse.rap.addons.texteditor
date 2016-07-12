@@ -12,9 +12,9 @@
  */
 package org.eclipse.rap.addons.texteditor.json;
 
-import org.eclipse.ui.part.EditorActionBarContributor;
+import org.eclipse.rap.addons.texteditor.BasicTextEditorContributor;
 
-public class JsonActionBarContributor extends EditorActionBarContributor {
+public class JsonActionBarContributor extends BasicTextEditorContributor {
 
 	public JsonActionBarContributor() {
 		// TODO Auto-generated constructor stub
