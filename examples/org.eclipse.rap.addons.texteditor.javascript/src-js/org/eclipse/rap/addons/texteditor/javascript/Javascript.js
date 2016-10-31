@@ -53,7 +53,7 @@
 					editor.getSession().setMode("ace/mode/javascript");	
 
 					//Set theme
-					editor.setTheme("ace/theme/eclipse");	
+					editor.setTheme("ace/theme/basictext");	
 
 					//Default settings
 					editor.getSession().setUseWrapMode(true);

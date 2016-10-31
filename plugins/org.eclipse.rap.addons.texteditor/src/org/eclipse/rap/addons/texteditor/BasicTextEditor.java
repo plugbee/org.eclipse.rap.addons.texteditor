@@ -574,7 +574,7 @@ public class BasicTextEditor extends EditorPart implements ISaveablesSource, IBa
 	}
 
 	protected void setURL(String url) {
-		viewer.getTextWidget().setUrl(url);
+		viewer.getTextWidget().setURL(url);
 	}
 	
 	protected void setText(String text) {

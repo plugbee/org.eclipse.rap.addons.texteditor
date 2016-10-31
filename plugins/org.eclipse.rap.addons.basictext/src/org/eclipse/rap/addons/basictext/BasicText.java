@@ -15,6 +15,8 @@
  */
 package org.eclipse.rap.addons.basictext;
 
+import static org.eclipse.rap.rwt.RWT.getClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import org.eclipse.rap.json.JsonArray;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.rap.json.JsonValue;
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.ClientFileLoader;
 import org.eclipse.rap.rwt.client.service.JavaScriptLoader;
 import org.eclipse.rap.rwt.remote.Connection;
 import org.eclipse.rap.rwt.remote.RemoteObject;
@@ -52,7 +55,14 @@ import org.eclipse.swt.widgets.Listener;
 public class BasicText extends Composite {
 
 	static final Logger logger = Logger.getLogger(BasicText.class);
-	
+
+	private static final String ACE_LIBRARY_KEY = "org.eclipse.rap.addons.basictext.ace";
+	private static final String ACE_LIBRARY_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/ace.js";
+	private static final String ACE_LANGUAGE_TOOLS_KEY = "org.eclipse.rap.addons.basictext.ace.ext-language_tools";
+	private static final String ACE_LANGUAGE_TOOLS_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/ext-language_tools.js";
+	private static final String ACE_SEARCHBOX_KEY = "org.eclipse.rap.addons.basictext.ace.ext-searchbox";
+	private static final String ACE_SEARCHBOX_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/ext-searchbox.js";
+
 	private static final String REMOTE_TYPE = "org.eclipse.rap.addons.BasicText";
 	private static final long serialVersionUID = 1L;
 	private static final int TextChanged = 47;
@@ -152,14 +162,15 @@ public class BasicText extends Composite {
 		}
 	}
 
+	/**
+	 * Register and load client side JavaScript.
+	 */
 	protected void setupClient() {
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/ace.js"));
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/ext-language_tools.js"));
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/ext-documentation.js"));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_LIBRARY_KEY, ACE_LIBRARY_VALUE));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_LANGUAGE_TOOLS_KEY, ACE_LANGUAGE_TOOLS_VALUE)); 		
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_SEARCHBOX_KEY, ACE_SEARCHBOX_VALUE)); 		
 		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/ext-tooltip.js"));
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/ext-searchbox.js"));
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/snippets/language.js"));
-		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/theme-eclipse.js"));
+		addBaseResource(new Path("org/eclipse/rap/addons/basictext/ace/theme-basictext.js"));
 		addBaseResource(new Path("org/eclipse/rap/addons/basictext/global-index.js"));
 		registerJsResources(getBaseResources(), BasicText.class.getClassLoader());
 		loadJsResources(getBaseResources());
@@ -805,7 +816,7 @@ public class BasicText extends Composite {
 	 * 
 	 * @param status
 	 */
-	public void setUrl(String url) {
+	public void setURL(String url) {
 		checkWidget();
 		if (url == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
@@ -971,7 +982,7 @@ public class BasicText extends Composite {
 	/**
 	 * Get the url
 	 * 
-	 * @return the url
+	 * @return the url value
 	 */
 	public String getURL() {
 		checkWidget();

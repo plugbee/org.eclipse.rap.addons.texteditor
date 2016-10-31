@@ -1,36 +1,20 @@
-/* ***** BEGIN LICENSE BLOCK *****
- * Distributed under the BSD license:
+/**
+ * <copyright>
  *
- * Copyright (c) 2010, Ajax.org B.V.
- * All rights reserved.
+ * Copyright (c) 2016 PlugBee. All rights reserved.
+ * 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of Ajax.org B.V. nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
+ * Contributors:
+ *     PlugBee - Initial API and implementation
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL AJAX.ORG B.V. BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * ***** END LICENSE BLOCK ***** */
-
+ * </copyright>
+ */
 ace.define('ace/ext/tooltip', ['require', 'exports', 'module' , 'ace/lib/dom', 'ace/lib/event', 'ace/range', 'ace/lib/lang'], function(require, exports, module) {
 
-//define(function(require, exports, module) {
 "use strict";
 
 var dom = require("ace/lib/dom");
@@ -146,11 +130,8 @@ oop.inherits(TokenTooltip, Tooltip);
                 this.width = this.getWidth();
                 this.height = this.getHeight();
             }
-
-            this.show(null, this.x, this.y);
-            
+            this.show(null, this.x, this.y);           
             this.token = token;
-            
             session.removeMarker(this.marker);
             this.range = new Range(docPos.row, token.start, docPos.row, token.start + token.value.length);
             this.marker = session.addMarker(this.range, "ace_bracket", "text");
@@ -160,9 +141,7 @@ oop.inherits(TokenTooltip, Tooltip);
             session.removeMarker(this.marker);
             return;	
         }
-
     };
-  
     
     this.onMouseMove = function(e) {
         this.x = e.clientX;
@@ -188,7 +167,6 @@ oop.inherits(TokenTooltip, Tooltip);
             x = window.innerWidth - this.width - 10;
         if (y > window.innerHeight * 0.75 || y + 20 + this.height > this.maxHeight)
             y = y - this.height - 30;
-
         Tooltip.prototype.setPosition.call(this, x + 10, y + 20);
     };
 

@@ -404,7 +404,7 @@
 				if (editor != null) {
 					
 					//Set theme
-					editor.setTheme("ace/theme/eclipse");
+					editor.setTheme("ace/theme/basictext");
 					
 					//Default settings
 					editor.getSession().setUseWrapMode(true);
@@ -449,8 +449,8 @@
 					this.langTools.addCompleter(this.backendCompleter);
 					
 					//Add documentation hover
-					var TokenTooltip = ace.require("ace/ext/tooltip").TokenTooltip;	
-					editor.tokenTooltip = new TokenTooltip(editor);
+					var Tooltip = ace.require("ace/ext/tooltip").Tooltip;	
+					editor.tokenTooltip = new Tooltip(editor);
 				 	
 				 	//Initialize the index
 				 	index = this._scope;
