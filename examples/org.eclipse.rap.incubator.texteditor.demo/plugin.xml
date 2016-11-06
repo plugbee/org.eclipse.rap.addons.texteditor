@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension point="org.eclipse.rap.ui.entrypoint">
+	<entrypoint
+       brandingId="org.eclipse.rap.incubator.texteditor.demo.branding"
+       class="org.eclipse.rap.incubator.texteditor.demo.TextEditorDemoWorkbench"
+       id="org.eclipse.rap.incubator.texteditor.demo.entrypoint"
+       path="/texteditor">
+		</entrypoint>
+	</extension>
+	<extension
+		id="org.eclipse.rap.incubator.texteditor.demo.application"
+				point="org.eclipse.core.runtime.applications">
+		<application
+        cardinality="singleton-global"
+        thread="main"
+        visible="true">
+			<run
+				class="org.eclipse.rap.incubator.texteditor.demo.TextEditorDemoApplication">
+			</run>
+		</application>
+	</extension>
+	<extension
+	      point="org.eclipse.rap.ui.branding">
+	   <branding
+	         favicon="icons/demo_icon.png"
+	         id="org.eclipse.rap.incubator.texteditor.demo.branding"
+	         title="Text Editor Basic Workbench">
+	      <presentationFactory
+	            id="org.eclipse.ui.presentations.default"
+	            name="Text Editor Demo">
+	      </presentationFactory>
+	   </branding>
+	</extension>
+	
+	<extension
+		point="org.eclipse.ui.perspectives">
+		<perspective
+			name="Text Editor Demo Perspective"
+			class="org.eclipse.rap.incubator.texteditor.demo.parts.TextEditorDemoPerspective"
+				id="org.eclipse.rap.incubator.texteditor.demo.ui.parts.perspective">
+		</perspective>
+	</extension>
+
+   
+   <extension point="org.eclipse.ui.commands">
+     <command
+           defaultHandler="org.eclipse.rap.incubator.texteditor.demo.commands.NewFileCommandHandler"
+           description="Create a new file"
+           helpContextId="Create a new File"
+           id="org.eclipse.rap.incubator.texteditor.commands.newFile"
+           name="Create a new file">
+     </command>
+     <command
+           categoryId="org.eclipse.ui.category.file"
+           defaultHandler="org.eclipse.rap.incubator.texteditor.demo.commands.OpenFileCommandHandler"
+           description="Open an existing file"
+           id="org.eclipse.rap.incubator.texteditor.commands.openFile"
+           name="Open file...">
+     </command>
+     <command
+           defaultHandler="org.eclipse.rap.incubator.texteditor.demo.commands.HelpCommandHandler"
+           description="About"
+           helpContextId="About"
+           id="org.eclipse.rap.incubator.texteditor.commands.help"
+           name="About">
+     </command>
+   </extension>
+
+     <extension
+         point="org.eclipse.ui.menus">
+        <menuContribution
+              allPopups="false"
+              locationURI="menu:file">
+           <command
+                 commandId="org.eclipse.rap.incubator.texteditor.commands.openFile"
+                 helpContextId="Open an existing file"
+                 label="Open file ..."
+                 style="push"
+                 tooltip="Open an existing file">
+           </command>
+        </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:file">
+         <command
+               commandId="org.eclipse.rap.incubator.texteditor.commands.newFile"
+               helpContextId="Create a new file"
+               label="New file"
+               style="push"
+               tooltip="Create a new file">
+         </command>
+      </menuContribution>
+
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:help">
+         <command
+               commandId="org.eclipse.rap.incubator.texteditor.commands.help"
+               helpContextId="About"
+               label="About"
+               style="push"
+               tooltip="About">
+         </command>
+      </menuContribution>
+   </extension>
+     <extension
+           point="org.eclipse.core.runtime.preferences">
+        <initializer
+              class="org.eclipse.rap.incubator.texteditor.demo.TextEditorPreferenceInitializer">
+        </initializer>
+     </extension> 
+</plugin>

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipse RAP Text Editor Demo
+Bundle-Vendor: PlugBee
+Bundle-Version: 0.9.0.qualifier
+Bundle-SymbolicName: org.eclipse.rap.incubator.texteditor.demo;singleton:=true
+Bundle-Activator: org.eclipse.rap.incubator.texteditor.demo.internal.Activator
+Require-Bundle: org.eclipse.rap.ui,
+ org.eclipse.rap.rwt,
+ org.eclipse.rap.incubator.basictext,
+ org.eclipse.rap.incubator.texteditor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.eclipse.rap.incubator.texteditor.demo,
+ org.eclipse.rap.incubator.texteditor.demo.commands,
+ org.eclipse.rap.incubator.texteditor.demo.internal,
+ org.eclipse.rap.incubator.texteditor.demo.parts,
+ org.eclipse.rap.incubator.texteditor.demo.wizards
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j;version="1.2.15"

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.rap.incubator.texteditor.json
+Bundle-Vendor: Plugbee
+Bundle-Version: 0.9.0.qualifier
+Bundle-SymbolicName: org.eclipse.rap.incubator.texteditor.json;singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.rap.ui,
+ org.eclipse.rap.incubator.texteditor,
+ org.eclipse.rap.incubator.basictext
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Activator: org.eclipse.rap.incubator.texteditor.json.internal.Activator
+Export-Package: org.eclipse.rap.incubator.texteditor.json,
+ org.eclipse.rap.incubator.texteditor.json.widget
+Import-Package: org.apache.log4j
