@@ -12,20 +12,26 @@
  */
 package org.eclipse.rap.incubator.texteditor.json.widget;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.eclipse.rap.rwt.RWT.getClient;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.rap.incubator.basictext.BasicText;
+import org.eclipse.rap.rwt.client.service.ClientFileLoader;
 import org.eclipse.rap.rwt.remote.Connection;
 import org.eclipse.rap.rwt.remote.RemoteObject;
 import org.eclipse.swt.widgets.Composite;
 
 public class Json extends BasicText {
-	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -5265994966668089731L;
+
 	public static final String REMOTE_TYPE = "org.eclipse.rap.incubator.texteditor.json.widget.Json";
+	
+	private static final String ACE_MODE_KEY = "org.eclipse.rap.incubator.basictext.ace.mode-json";
+	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/mode-json.js";
+	private static final String ACE_WORKER_KEY = "org.eclipse.rap.incubator.basictext.ace.worker-json";
+	private static final String ACE_WORKER_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/worker-json.js";
+	private static final String ACE_SNIPPETS_KEY = "org.eclipse.rap.incubator.basictext.ace.snippets-json";
+	private static final String ACE_SNIPPETS_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/snippets/json.js";
 	
 	public Json(Composite parent, int style) {
 		super(parent, style);
@@ -39,11 +45,9 @@ public class Json extends BasicText {
 	@Override 
 	protected void setupClient() {
 		super.setupClient();
-		List<IPath> languageResources = new ArrayList<IPath>();	
-		languageResources.add(new Path("src-js/org/eclipse/rap/incubator/texteditor/json/ace/mode-json.js"));
-		languageResources.add(new Path("src-js/org/eclipse/rap/incubator/texteditor/json/ace/worker-json.js"));
-		registerJsResources(languageResources, getClassLoader());
-		loadJsResources(languageResources);
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_MODE_KEY, ACE_MODE_VALUE));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_WORKER_KEY, ACE_WORKER_VALUE));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_SNIPPETS_KEY, ACE_SNIPPETS_VALUE));
 	}
 
 	@Override
