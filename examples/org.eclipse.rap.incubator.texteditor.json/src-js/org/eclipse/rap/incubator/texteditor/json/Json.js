@@ -161,8 +161,7 @@
 
 			destroy : function() {
 				this.base(arguments);
-			},
-			
+			},			
 		}
 	});
 	
