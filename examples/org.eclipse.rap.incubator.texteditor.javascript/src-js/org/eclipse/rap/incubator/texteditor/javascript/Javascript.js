@@ -47,8 +47,9 @@
 
 					//Set theme
 					editor.setTheme("ace/theme/basictext");	
-
+					
 					//Default settings
+					editor.getSession().setUseWorker(false);
 					editor.getSession().setUseWrapMode(true);
 				    editor.getSession().setTabSize(4);
 				    editor.getSession().setUseSoftTabs(true);
