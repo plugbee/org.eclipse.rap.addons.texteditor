@@ -28,10 +28,6 @@ public class Javascript extends BasicText {
 
 	private static final String ACE_MODE_KEY = "org.eclipse.rap.incubator.basictext.ace.mode-javascript";
 	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/mode-javascript.js";
-	private static final String ACE_WORKER_KEY = "org.eclipse.rap.incubator.basictext.ace.worker-javascript";
-	private static final String ACE_WORKER_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/worker-javascript.js";
-	private static final String ACE_SNIPPETS_KEY = "org.eclipse.rap.incubator.basictext.ace.snippets-javascript";
-	private static final String ACE_SNIPPETS_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/snippets/javascript.js";
 	
 	public Javascript(Composite parent, int style) {
 		super(parent, style);
@@ -46,8 +42,6 @@ public class Javascript extends BasicText {
 	protected void setupClient() {
 		super.setupClient();
 		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_MODE_KEY, ACE_MODE_VALUE));
-		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_WORKER_KEY, ACE_WORKER_VALUE));
-		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_SNIPPETS_KEY, ACE_SNIPPETS_VALUE));
 	}
 
 	@Override

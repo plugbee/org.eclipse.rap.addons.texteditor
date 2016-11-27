@@ -35,13 +35,6 @@
 		members : {
 						
 			createEditor : function() {
-				var basePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
-				ace.require("ace/config").set("basePath", basePath);
-				var themePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/texteditor/javascript/ace';
-				ace.require("ace/config").set("themePath", themePath);
-				var workerPath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4';
-				ace.require("ace/config").set("workerPath", workerPath);
-				
 				var editor = this.editor = ace.edit(this.element);
 				var editable = this.editable;
 				var self = this;
@@ -70,7 +63,7 @@
 					this.langTools = ace.require("ace/ext/language_tools");
 					editor.setOptions({
 					    enableBasicAutocompletion: true,
-					    enableSnippets: true
+					    enableSnippets: false
 					});
 
 					//Add text hover
