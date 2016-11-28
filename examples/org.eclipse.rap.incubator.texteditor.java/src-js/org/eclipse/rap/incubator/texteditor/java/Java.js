@@ -70,7 +70,7 @@
 					this.langTools = ace.require("ace/ext/language_tools");
 					editor.setOptions({
 					    enableBasicAutocompletion: true,
-					    enableSnippets: true
+					    enableSnippets: false
 					});
 
 					//Add text hover
