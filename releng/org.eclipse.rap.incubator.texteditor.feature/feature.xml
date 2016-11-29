@@ -30,13 +30,6 @@ PlugBee - Initial API and implementation
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rap.incubator.texteditor.demo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.rap.incubator.texteditor.java"
          download-size="0"
          install-size="0"

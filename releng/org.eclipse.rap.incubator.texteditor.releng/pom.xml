@@ -11,7 +11,6 @@
 		<module>../../plugins/org.eclipse.rap.incubator.basictext</module>
 		<module>../../plugins/org.eclipse.rap.incubator.texteditor</module>
 		<module>../org.eclipse.rap.incubator.texteditor.feature</module>
-		<module>../../examples/org.eclipse.rap.incubator.texteditor.demo</module>
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.java</module>
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.javascript</module>
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.json</module>	
