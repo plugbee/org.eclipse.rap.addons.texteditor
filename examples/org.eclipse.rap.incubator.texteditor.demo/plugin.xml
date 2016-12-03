@@ -24,7 +24,6 @@
 	<extension
 	      point="org.eclipse.rap.ui.branding">
 	   <branding
-	         favicon="icons/demo_icon.png"
 	         id="org.eclipse.rap.incubator.texteditor.demo.branding"
 	         title="Text Editor Basic Workbench">
 	      <presentationFactory
