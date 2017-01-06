@@ -58,6 +58,7 @@ import org.eclipse.rap.incubator.basictext.ITextSaveListener;
 import org.eclipse.rap.incubator.basictext.TextChangedEvent;
 import org.eclipse.rap.incubator.basictext.TextSavedEvent;
 import org.eclipse.rap.incubator.basictext.TextSelection;
+import org.eclipse.rap.incubator.basictext.jface.ICompletionProposal;
 import org.eclipse.rap.incubator.basictext.jface.IDocument;
 import org.eclipse.rap.incubator.basictext.jface.ITextViewer;
 import org.eclipse.rap.incubator.basictext.jface.TextDocument;
@@ -593,7 +594,7 @@ public class BasicTextEditor extends EditorPart implements ISaveablesSource, IBa
 		viewer.getTextWidget().setScope(scope);
 	}
 	
-	protected void setProposals(List<String> proposals) {
+	protected void setProposals(List<ICompletionProposal> proposals) {
 		viewer.getTextWidget().setProposals(proposals);
 	}
 

@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.rap.incubator.basictext.jface.ICompletionProposal;
 import org.eclipse.rap.json.JsonArray;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.rap.json.JsonValue;
@@ -72,12 +73,12 @@ public class BasicText extends Composite {
 	
 	private final BasicTextOperationHandler operationHandler = new BasicTextOperationHandler(this);
 	private RemoteObject remoteObject;
-	private String url;
 	private List<IPath> resources = new ArrayList<IPath>();
+	private String url = "";
 	private String status = "";
 	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private List<String> scope = new ArrayList<String>();
-	private List<String> proposals = new ArrayList<String>();
+	private List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 	private List<TextRange> markers = new ArrayList<TextRange>();
 	private int style;
 	private Listener listener;
@@ -191,16 +192,6 @@ public class BasicText extends Composite {
 	}
 
 	/**
-	 * Handles a text changed event.
-	 * 
-	 * @param event
-	 */
-	void handleTextChanged(Event event) {
-		notifyListeners(SWT.Modify, event);
-		notifyListeners(TextChanged, event);
-	}
-
-	/**
 	 * Adds event listeners
 	 */
 	void installListeners() {
@@ -285,6 +276,16 @@ public class BasicText extends Composite {
 		notifyListeners(TextChanged, event);
 	}
 
+	/**
+	 * Handles a text changed event.
+	 * 
+	 * @param event
+	 */
+	void handleTextChanged(Event event) {
+		notifyListeners(SWT.Modify, event);
+		notifyListeners(TextChanged, event);
+	}
+	
 	/**
 	 * Handles a text save event
 	 * 
@@ -880,19 +881,73 @@ public class BasicText extends Composite {
 	 * 
 	 * @param proposals
 	 */
-	public void setProposals(List<String> proposals) {
+	public void setProposals(List<ICompletionProposal> proposals) {
 		checkWidget();
 		if (proposals == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
 		}
 		this.proposals = proposals;
-		JsonArray array = new JsonArray();
-		for (String s : proposals) {
-			array.add(s);
+		JsonArray values = new JsonArray();
+		for (ICompletionProposal proposal : proposals) {
+			JsonObject value = new JsonObject();
+			value.add("display", proposal.getDisplayString());
+			value.add("replacement", proposal.getReplacementString());
+			value.add("type", proposal.getAdditionalProposalInfo());
+			values.add(value);
 		}
-		getRemoteObject().set("proposals", array);
+		getRemoteObject().set("proposals", values);
 	}
 	
+	/**
+	 * Adds a marker for the given text range
+	 * 
+	 * @param text range
+	 */
+	public void addMarker(TextRange range) {
+		checkWidget();
+		if (range == null) {
+			SWT.error(SWT.ERROR_NULL_ARGUMENT);
+		}
+		this.markers.add(range);
+		
+		JsonObject properties = new JsonObject();
+		properties.add("rowStart", range.rowStart);
+		properties.add("columnStart", range.columnStart);
+		properties.add("rowEnd", range.rowEnd);
+		properties.add("columnEnd", range.columnEnd);
+		getRemoteObject().call("addMarker", properties);
+	}
+	
+	/**
+	 * Removes a marker for the given text range
+	 * 
+	 * @param text range
+	 */
+	public void removeMarker(TextRange range) {
+		checkWidget();
+		if (range == null) {
+			SWT.error(SWT.ERROR_NULL_ARGUMENT);
+		}
+		this.markers.remove(range);
+		
+		JsonObject properties = new JsonObject();
+		properties.add("rowStart", range.rowStart);
+		properties.add("columnStart", range.columnStart);
+		properties.add("rowEnd", range.rowEnd);
+		properties.add("columnEnd", range.columnEnd);
+		getRemoteObject().call("removeMarker", properties);
+	}
+	
+	/**
+	 * Clears all the markers
+	 */
+	public void clearMarkers() {
+		checkWidget();
+		this.markers.clear();
+		JsonObject properties = new JsonObject();
+		getRemoteObject().call("clearMarkers", properties);
+	}
+
 	/**
 	 * Sets markers for the given text ranges
 	 * 
@@ -980,16 +1035,6 @@ public class BasicText extends Composite {
 	}
 
 	/**
-	 * Get the url
-	 * 
-	 * @return the url value
-	 */
-	public String getURL() {
-		checkWidget();
-		return url;
-	}
-	
-	/**
 	 * Get the text value
 	 * 
 	 * @return the text value
@@ -999,6 +1044,16 @@ public class BasicText extends Composite {
 		return content.getTextRange(0, getCharCount());
 	}
 
+	/**
+	 * Get the resource URL
+	 * 
+	 * @return the URL value
+	 */
+	public String getURL() {
+		checkWidget();
+		return url;
+	}
+	
 	/**
 	 * Get the validation status
 	 * 
@@ -1024,7 +1079,7 @@ public class BasicText extends Composite {
 	 * 
 	 * @return the content assist proposals
 	 */
-	public List<String> getProposals() {
+	public List<ICompletionProposal> getProposals() {
 		checkWidget();
 		return proposals;
 	}
