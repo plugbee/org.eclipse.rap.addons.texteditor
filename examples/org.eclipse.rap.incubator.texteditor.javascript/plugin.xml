@@ -23,7 +23,7 @@
       <editor
             id="org.eclipse.rap.incubator.texteditor.javascript.editor"
             name="JavaScript Editor"
-	            icon="icons/jcu_obj.png"
+	            icon="icons/js_obj.png"
 		            extensions="js"
            class="org.eclipse.rap.incubator.texteditor.javascript.JavascriptEditor"
             contributorClass="org.eclipse.rap.incubator.texteditor.javascript.JavascriptActionBarContributor">
