@@ -21,12 +21,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
+import org.dslforge.texteditor.PathEditorInput;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.rap.incubator.texteditor.demo.commands.EditorUtil;
-import org.eclipse.rap.incubator.texteditor.demo.commands.PathEditorInput;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbench;

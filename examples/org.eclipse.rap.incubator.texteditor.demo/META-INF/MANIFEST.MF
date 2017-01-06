@@ -8,7 +8,8 @@ Bundle-Activator: org.eclipse.rap.incubator.texteditor.demo.internal.Activator
 Require-Bundle: org.eclipse.rap.ui,
  org.eclipse.rap.rwt,
  org.eclipse.rap.incubator.basictext,
- org.eclipse.rap.incubator.texteditor
+ org.eclipse.rap.incubator.texteditor,
+ org.dslforge.texteditor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.eclipse.rap.incubator.texteditor.demo,
  org.eclipse.rap.incubator.texteditor.demo.commands,

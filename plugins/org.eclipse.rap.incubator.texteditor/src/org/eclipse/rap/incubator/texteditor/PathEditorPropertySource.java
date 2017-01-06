@@ -50,9 +50,9 @@ public class PathEditorPropertySource implements IPropertySource {
 	@Override
 	public Object getPropertyValue(Object id) {
 		if ("name".equals(id))
-			return editorInput.getPath().lastSegment();
+			return editorInput.getPath().toFile().getName();
 		else if ("location".equals(id))
-			return editorInput.getPath().toString();
+			return editorInput.getPath().toFile().getAbsolutePath();
 		else if ("path".equals(id))
 			return editorInput.getPath().lastSegment();
 		else if ("lastModified".equals(id)) {
