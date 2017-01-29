@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+         point="org.eclipse.rap.ui.resources">
+      <resource
+            class="org.eclipse.rap.incubator.texteditor.html.widget.HtmlResource"
+            id="org.eclipse.rap.incubator.texteditor.html.editor">
+            <dependsOn
+				resourceId="org.eclipse.rap.incubator.basictext">
+			</dependsOn>
+      </resource>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.themeableWidgets">
+      <widget
+            class="org.eclipse.rap.incubator.texteditor.html.widget.Html"
+            id="org.eclipse.rap.incubator.texteditor.html.editor.widget.Html"
+            name="HTML">
+      </widget>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.rap.incubator.texteditor.html.editor"
+            name="HTML Editor"
+	            icon="icons/jcu_obj.png"
+		            extensions="html"
+           class="org.eclipse.rap.incubator.texteditor.html.HtmlEditor"
+            contributorClass="org.eclipse.rap.incubator.texteditor.html.HtmlActionBarContributor">
+      </editor>
+   </extension>
+</plugin>
