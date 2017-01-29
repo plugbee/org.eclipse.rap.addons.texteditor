@@ -13,10 +13,10 @@
  *
  * </copyright>
  */
-ace.define('ace/theme/basictext', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+define('ace/theme/basic', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
-exports.cssText = ".ace-basictext .ace_gutter {\
+exports.cssText = ".ace-basic .ace_gutter {\
 background: #ebebeb;\
 border-right: 1px solid rgb(159, 159, 159);\
 color: rgb(136, 136, 136);\
@@ -58,90 +58,86 @@ font-size: 14px;\
 letter-spacing: normal;\
 pointer-events: none;\
 }\
-.ace-basictext .ace_print-margin {\
+.ace-basic .ace_print-margin {\
 width: 1px;\
 background: #ebebeb;\
 }\
-.ace-basictext {\
+.ace-basic {\
 background-color: #FFFFFF;\
 }\
-.ace-basictext .ace_fold {\
+.ace-basic .ace_fold {\
 background-color: rgb(60, 76, 114);\
 }\
-.ace-basictext .ace_cursor {\
+.ace-basic .ace_cursor {\
 border-left: 2px solid black;\
 }\
-.ace-basictext .ace_storage,\
-.ace-basictext .ace_keyword,\
-.ace-basictext .ace_variable {\
+.ace-basic .ace_storage,\
+.ace-basic .ace_keyword,\
+.ace-basic .ace_variable {\
 font-weight: bold;\
 color: rgb(120, 0, 45);\
 }\
-.ace-basictext .ace_constant.ace_buildin {\
+.ace-basic .ace_constant.ace_buildin {\
 color: rgb(88, 72, 246);\
 }\
-.ace-basictext .ace_constant.ace_library {\
+.ace-basic .ace_constant.ace_library {\
 color: rgb(6, 150, 14);\
 }\
-.ace-basictext .ace_function {\
+.ace-basic .ace_function {\
 color: rgb(60, 76, 114);\
 }\
-.ace-basictext .ace_string {\
+.ace-basic .ace_string {\
 color: rgb(42, 0, 255);\
 }\
-.ace-basictext .ace_comment {\
+.ace-basic .ace_comment {\
 color: rgb(113, 150, 130);\
 }\
-.ace-basictext .ace_comment.ace_doc {\
+.ace-basic .ace_comment.ace_doc {\
 color: rgb(63, 95, 191);\
 }\
-.ace-basictext .ace_comment.ace_doc.ace_tag {\
+.ace-basic .ace_comment.ace_doc.ace_tag {\
 color: rgb(127, 159, 191);\
 }\
-.ace-basictext .ace_constant.ace_numeric {\
+.ace-basic .ace_constant.ace_numeric {\
 color: darkblue;\
 }\
-.ace-basictext .ace_tag {\
+.ace-basic .ace_tag {\
 color: rgb(25, 118, 116);\
 }\
-.ace-basictext .ace_type {\
+.ace-basic .ace_type {\
 color: rgb(127, 0, 127);\
 }\
-.ace-basictext .ace_xml-pe {\
+.ace-basic .ace_xml-pe {\
 color: rgb(104, 104, 91);\
 }\
-.ace-basictext .ace_marker-layer .ace_selection {\
+.ace-basic .ace_marker-layer .ace_selection {\
 background: rgb(181, 213, 255);\
 }\
-.ace-basictext .ace_marker-layer .ace_bracket {\
+.ace-basic .ace_marker-layer .ace_bracket {\
 margin: -1px 0 0 -1px;\
 border: 1px solid rgb(192, 192, 192);\
 }\
-.ace-basictext .ace_meta.ace_tag {\
+.ace-basic .ace_meta.ace_tag {\
 color:rgb(25, 118, 116);\
 }\
-.ace-basictext .ace_invisible {\
+.ace-basic .ace_invisible {\
 color: #ddd;\
 }\
-.ace-basictext .ace_entity.ace_other.ace_attribute-name {\
+.ace-basic .ace_entity.ace_other.ace_attribute-name {\
 color:rgb(127, 0, 127);\
 }\
-.ace-basictext .ace_marker-layer .ace_step {\
+.ace-basic .ace_marker-layer .ace_step {\
 background: rgb(255, 255, 0);\
 }\
-.ace-basictext .ace_marker-layer .ace_active-line {\
+.ace-basic .ace_marker-layer .ace_active-line {\
 background: rgb(232, 242, 254);\
 }\
-.ace-basictext .ace_marker-layer .ace_selected-word {\
+.ace-basic .ace_marker-layer .ace_selected-word {\
 border: 1px solid rgb(181, 213, 255);\
 }\
-.ace-basictext .ace_indent-guide {\
+.ace-basic .ace_indent-guide {\
 background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==\") right repeat-y;\
 }\
-.ace-tooltip { border: 1px solid silver; border-radius: 3px; color: #444; padding: 2px 5px; padding-right:15px; /*for close button*/ font-size: 90%; font-family: monospace; background-color: white; white-space: pre-wrap; max-width: 50em; max-height:30em; overflow-y:auto; position: absolute; z-index: 10; -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2); -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2); box-shadow: 2px 3px 5px rgba(0, 0, 0, .2); transition: opacity 1s; -moz-transition: opacity 1s; -webkit-transition: opacity 1s; -o-transition: opacity 1s; -ms-transition: opacity 1s; }\
-.ace-tooltip-boxclose { position:absolute; top:0; right:3px; color:red; }\
-.ace-tooltip-boxclose:hover { background-color:yellow; }\
-.ace-tooltip-boxclose:before { content:'×'; cursor:pointer; font-weight:bold; font-size:larger; }\
 .ace-completion { padding-left: 12px; position: relative; }\
 .ace-completion:before { position: absolute; left: 0; bottom: 0; border-radius: 50%; font-weight: bold; height: 13px; width: 13px; font-size:11px; /*BYM*/ line-height: 14px; text-align: center; color: white; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }\
 .ace-completion-unknown:before { content:'?'; background: #4bb; }\
@@ -155,7 +151,7 @@ background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZ
 ";
 
 
-exports.cssClass = "ace-basictext";
+exports.cssClass = "ace-basic";
 
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);

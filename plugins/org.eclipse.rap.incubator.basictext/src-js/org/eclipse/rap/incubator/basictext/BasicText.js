@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2015 PlugBee. All rights reserved.
+ * Copyright (c) 2017 PlugBee. All rights reserved.
  * 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
@@ -13,7 +13,6 @@
  *
  * </copyright>
  */
-//minify using as YUI Compressor, Google Closure Compiler, or JSMin. 
 (function() {
 	rap.registerTypeHandler("org.eclipse.rap.incubator.BasicText", {
 		factory : function(properties) {
@@ -65,7 +64,7 @@
 			proposals: [],
 			completers: null,
 			backendCompleter: null,
-			useSharedWorker: true,
+			useSharedWorker: false,
 			
 			onReady : function() {
 				this.ready = true;
@@ -173,24 +172,7 @@
 			},
 
 			onCompletionRequest : function(pos, prefix, callback) {
-				if (this.isFocused) {
-					var remoteObject = rap.getRemoteObject(this);
-					if (remoteObject) {
-						remoteObject.call("getProposals", { value : this.editor.getValue(), pos : pos, prefix : prefix});
-					}	
-					var proposals = this.proposals;		
-			        var wordList = Object.keys(proposals);
-			        var self = this;
-			        callback(null, wordList.map(function(word) {
-			            return {
-			            	iconClass: " " + self.typeToIcon(proposals[word].type),
-			                name: word,
-			                value: proposals[word].replacement,
-			                score: 1,
-			                meta: "[" + proposals[word].type + "]"
-			            };
-			        }));	
-				}
+				//do nothing
 			},
 			
 			onModify : function() {
@@ -199,7 +181,6 @@
 					remoteObject.notify("TextChanged", { value : this.editor.getValue()});
 				} else {
 					if (this.editable) {
-						//initial setting, avoid notify back the server.
 						this.initialContent=false;
 						this.editor.getSession().getUndoManager().reset();		
 					}
@@ -324,13 +305,13 @@
 			setProposals : function(proposals) {
 				this.proposals = proposals;	
 			},
-			
-			//'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro'
-			//font = 14px Verdana, "Lucida Sans", Arial, Helvetica, sans-serif
+
 			setFont : function(font) {
 				if (this.ready) {
-					this.editor.setOptions({fontFamily: "Menlo, monospace"});
-					this.editor.setFontSize(16);
+					this.editor.setOptions({
+						fontFamily: "Menlo, monospace",
+						fontSize: font + "pt"
+					});
 				}
 				else {
 			        this.font = font;
@@ -412,7 +393,7 @@
 				if (this.ready) {
 					var position = { row:properties.rowStart, column:properties.columnStart};
 					var text = properties.text;
-					this.editor.getSession().insert(position, text); //where position is an object of the form {row:number, column:number}
+					this.editor.getSession().insert(position, text);
 				}
 			},
 
@@ -437,79 +418,73 @@
 					this.editor.getSelection().moveCursorFileEnd();
 				}
 			},
-			
+
 			createEditor : function() {
-				var editor = this.editor = ace.edit(this.element);				
-				var editable = this.editable;
+				var basePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
+				ace.require("ace/config").set("basePath", basePath);
+				var workerPath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
+				ace.require("ace/config").set("workerPath", workerPath);
+				var themePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
+				ace.require("ace/config").set("themePath", themePath);
+				var modePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
+				ace.require("ace/config").set("modePath", modePath);
+				var editor = this.editor = ace.edit(this.element);
 				if (editor != null) {
-					
-					//Set theme
-					editor.setTheme("ace/theme/basictext");
-					
-					//Default settings
-					editor.getSession().setUseWrapMode(true);
-				    editor.getSession().setTabSize(4);
-				    editor.getSession().setUseSoftTabs(true);
-					editor.getSession().getUndoManager().reset();
+					var editable = this.editable;
+					var guid = this.url;	
+					//Language settings
+			        ace.config.loadModule("ace/ext/language_tools", function (module) {
+						editor.setTheme("ace/theme/basic");
+			        	editor.setOptions({
+				            enableBasicAutocompletion: false,
+				            enableTextCompleter: false,
+				            enableSnippets: false,
+						    useWorker: false
+			            });
+			        });
+					//General settings
 					editor.setShowPrintMargin(false);
 					editor.setBehavioursEnabled(true);
 					editor.setWrapBehavioursEnabled(true);
 					editor.setReadOnly(!editable);							
 					editor.$blockScrolling = Infinity;				
-					//Load content assist module
-					this.langTools = ace.require("ace/ext/language_tools");
-					this.editor.setOptions({
-					    enableBasicAutocompletion: true
-					});
-					
-					//Set the Id of this editor
-					var guid = this.url;
-					
-					//Initialize the annotations
-					if (this.annotations==null) 
-						this.annotations=[];
-					
-					//Initialize the global index
-					if (this.scope==null)
-						this.scope=[];
-					
-					//Initialize the completion proposals
-					if (this.proposals==null) 
-						this.proposals=[];
-					
+					editor.setFontSize(12);
+					editor.getSession().setUseWrapMode(true);
+				    editor.getSession().setTabSize(4);
+				    editor.getSession().setUseSoftTabs(true);
+					editor.getSession().getUndoManager().reset();
+					//initialize if server not ready
+					if (this.annotations==null) this.annotations=[];
+					if (this.scope==null) this.scope=[];
+					if (this.proposals==null) this.proposals=[];
 					var self = this;
+					//Content assist
+					this.langTools = ace.require("ace/ext/language_tools");
 					this.backendCompleter = {	
 						getCompletions: function(editor, session, pos, prefix, callback) {
 							self.onCompletionRequest(pos, prefix, callback);	
 						},
 						getDocTooltip: function(item) {
-						    item.docHTML = ["<b>", item.caption, "</b>", 
-						                    "<hr></hr>", 
-						                    item.meta.substring(1,item.meta.length-1)
-						                    ].join("");
+					    	item.docHTML = ["<div class=\"ace_line\" style=\"height:12px\"><span class=\"", self.typeToIcon(item.meta),"\">&nbsp;</span><span class=\"ace_\">","<b>", item.caption, "</b>","</span><span class=\"ace_rightAlignedText\"></span></div>", "<hr></hr>", item.meta].join("");
 						}
 					}
-					//Add completer and enable content assist
+					this.completers = editor.completers;
 					this.langTools.addCompleter(this.backendCompleter);
-					
-					//Add documentation hover
+					//Documentation
 					var TokenTooltip = ace.require("ace/ext/tooltip").TokenTooltip;	
-					editor.tokenTooltip = new TokenTooltip(editor);
-				 	
-				 	//Initialize the index
+					editor.tokenTooltip = new TokenTooltip(editor);			 	
+				 	//Index
 				 	index = this.scope;
-
-				 	//Initialize the completion proposals
-				 	proposals = this.proposals;
-					
+				 	proposals = this.proposals;	
 					if (this.useSharedWorker) {
 						if (typeof SharedWorker == 'undefined') {	
-							alert("Your browser does not support JavaScript Shared Workers.");
+							alert("Your browser does not support Javascript shared workers. "
+									+ "This feature enables multi-threading in the browser, it will be disabled with your navigator. "
+									+ "The following browsers are supported: Chrome, Firefox, Safari.");
 						} else {
-							//Compute worker's http URL
 							var filePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/global-index.js';
-							var httpURL = computeWorkerPath(filePath);
-							var worker = this.worker = new SharedWorker(httpURL);		
+							var httpURL = this.computeWorkerPath(filePath);
+							var worker = this.worker = new SharedWorker(httpURL);	 			
 							if (this.ready) {
 								editor.on("change", function(event) {
 									worker.port.postMessage({
@@ -520,63 +495,33 @@
 							    });
 							}
 							worker.port.onmessage = function(e) {
-							 	//update the index reference
 							 	index = e.data.index;
-						    };	
-						}	
-				 	} 
-
-				 	//On focus get event
+						    };		
+					 	}
+					}
 					editor.on("focus", function() {
 				 		self.onFocus();
 				 	});
-					
-					//On focus lost event
 				 	editor.on("blur", function() {
 				 		self.onBlur();
 				 	});
-				 	
-				 	//On input event
 				 	editor.on("input", function() {
 						if (!editor.getSession().getUndoManager().isClean())
 							self.onModify();
 				 	});
-				 	
-				 	//On mouse down event
-				 	editor.on("mousedown", function() { 
-				 	    // Store the Row/column values
-				 	}) 
-
-				 	//On cursor move event
 				 	editor.getSession().getSelection().on('changeCursor', function() { 
-				 	    if (editor.$mouseHandler.isMousePressed)  {
-				 	      // the cursor changed using the mouse
-				 	    }
-				 	    // the cursor changed
 				 	    self.onChangeCursor();
 				 	});
-
-				 	//On text change event
-					editor.on("change", function(event) {					        
-						//implement in subclasses						
-			        });
-					
-					//Bind keyboard shorcuts
 					editor.commands.addCommand({
 						name: 'saveFile',
-						bindKey: {
-						win: 'Ctrl-S',
-						mac: 'Command-S',
-						sender: 'editor|cli'
-						},
+						bindKey: {win: 'Ctrl-S', mac: 'Command-S', sender: 'editor|cli'},
 						exec: function(env, args, request) {
 							self.onSave();
 						}
 					});
-					
-					//Done
-			        this.onReady();
 				}
+				//Done
+		        this.onReady();	
 			},
 
 			flush : function(inResponse) {
@@ -601,7 +546,8 @@
 			},
 			
 			computeWorkerPath : function (path) {
-		        path = path.replace(/^[a-z]+:\/\/[^\/]+/, ""); // Remove domain name and rebuild path
+				//Remove domain name and rebuild path
+				path = path.replace(/^[a-z]+:\/\/[^\/]+/, "");
 		        path = location.protocol + "//" + location.host
 		            + (path.charAt(0) == "/" ? "" : location.pathname.replace(/\/[^\/]*$/, ""))
 		            + "/" + path.replace(/^[\/]+/, "");
@@ -609,6 +555,8 @@
 		    },
 		    
 			typeToIcon : function(type) {
+				if (type.indexOf("[") ==0  && type.indexOf("]") == type.length-1)
+					type = type.substring(1, type.length-1);
 				var cls = "ace-";
 				var suffix;
 				if (type == "?") suffix = "unknown";

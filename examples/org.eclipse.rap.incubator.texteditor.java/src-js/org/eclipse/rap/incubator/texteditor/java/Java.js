@@ -13,16 +13,15 @@
  *
  * </copyright>
  */
-//minify using as YUI Compressor, Google Closure Compiler, or JSMin. 
 (function() {
 	rap.registerTypeHandler("org.eclipse.rap.incubator.texteditor.java.widget.Java", {
 		factory : function(properties) {
 			return new org.eclipse.rap.incubator.texteditor.java.widget.Java(properties);
-		},	
-		destructor : "destroy",	 
+		},
+		destructor : "destroy",
 		properties : [ "url", "text", "editable", "status", "annotations", "scope", "proposals", "font", "dirty", "markers", "background"],
 		events : ["Modify", "TextChanged", "Save", "FocusIn", "FocusOut", "Selection", "CaretEvent", "ContentAssist"],
-		methods : ["addMarker", "insertText", "removeText", "setProposals"]
+		methods : ["setSelection", "addMarker", "removeMarker", "clearMarkers", "insertText", "removeText", "setProposals", "moveCursorFileStart","moveCursorFileEnd"]
  		
 	});
 
@@ -35,28 +34,25 @@
 		members : {
 						
 			createEditor : function() {
-				var basePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/ace';
+				var basePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/';
 				ace.require("ace/config").set("basePath", basePath);
-				var themePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/texteditor/java/ace';
+				var themePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/texteditor/java';
 				ace.require("ace/config").set("themePath", themePath);
-				var workerPath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4';
-				ace.require("ace/config").set("workerPath", workerPath);
-				
+				var modePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/';
+				ace.require("ace/config").set("modePath", modePath);
 				var editor = this.editor = ace.edit(this.element);
-				var editable = this.editable;
-				var self = this;
 				if (editor != null) {
-					//Set the Id of this editor
+					var editable = this.editable;
 					var guid = this.url;
-					
-					//Set language mode
-					editor.getSession().setMode("ace/mode/java");	
-
-					//Set theme
-					editor.setTheme("ace/theme/basictext");	
-
+			        editor.setOptions({
+			        	enableBasicAutocompletion: true,
+			            enableTextCompleter: true,
+			            enableSnippets: false,
+					    useWorker: false
+		            });
+					editor.getSession().setMode("ace/mode/java");
+					editor.setTheme("ace/theme/java");
 					//Default settings
-					editor.getSession().setUseWorker(false);
 					editor.getSession().setUseWrapMode(true);
 				    editor.getSession().setTabSize(4);
 				    editor.getSession().setUseSoftTabs(true);
@@ -65,127 +61,80 @@
 					editor.setBehavioursEnabled(true);
 					editor.setWrapBehavioursEnabled(true);
 					editor.$blockScrolling = Infinity;
-					this.setFont("10px");
-					
-					//Configure content assist feature
+					this.setFont(10);
+					var self = this;
+					//Content assist
 					this.langTools = ace.require("ace/ext/language_tools");
-					editor.setOptions({
-					    enableBasicAutocompletion: true,
-					    enableSnippets: false
-					});
-
-					//Add text hover
-					var TokenTooltip = ace.require("ace/ext/tooltip").TokenTooltip;	
-					editor.tokenTooltip = new TokenTooltip(editor);		 	
-				 	
-					//Handle the global index
+					this.completers = editor.completers;
+					//Text hover
+					var TokenTooltip = ace.require("ace/ext/tooltip").TokenTooltip;
+					editor.tokenTooltip = new TokenTooltip(editor);
+					//Annotations
+					if (this.annotations==null)	this.annotations=[];
+					//Index
+				 	index = this.scope;
+				 	proposals = this.proposals;
 				 	if (this.useSharedWorker) {
-						if (typeof SharedWorker == 'undefined') {	
-							alert("Your browser does not support JavaScript shared workers.");
+						if (typeof SharedWorker == 'undefined') {
+							alert("Your browser does not support Javascript shared workers. "
+									+ "This feature enables multi-threading in the browser, it will be disabled with your navigator. "
+									+ "The following browsers are supported: Chrome, Firefox, Safari.");
 						} else {
-							//Compute worker's http URL
 							var filePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/global-index.js';
-							var httpURL = computeWorkerPath(filePath);
-							var worker = this.worker = new SharedWorker(httpURL);		
-							editor.on("change", function(event) {
-								worker.port.postMessage({
-									message: editor.getValue(), 
-							        guid: guid, 
-							        index: index
+							var httpURL = this.computeWorkerPath(filePath);
+							var worker = this.worker = new SharedWorker(httpURL);
+							if (this.ready) {
+								editor.on("change", function(event) {
+									worker.port.postMessage({
+										message: editor.getValue(),
+								        guid: guid,
+								        index: index
+								    });
 							    });
-						    });
+							}
 							worker.port.onmessage = function(e) {
-							 	//update the index reference
 							 	index = e.data.index;
-						    };	
-						}	
-				 	} 
-
-				 	//On focus get event
+						    };
+						}
+				 	}
 					editor.on("focus", function() {
 				 		self.onFocus();
 				 	});
-					
-					//On focus lost event
 				 	editor.on("blur", function() {
 				 		self.onBlur();
 				 	});
-				 	
-				 	//On input event
 				 	editor.on("input", function() {
 						if (!editor.getSession().getUndoManager().isClean())
 							self.onModify();
 				 	});
-				 	
-				 	//On mouse down event
-				 	editor.on("mousedown", function() { 
-				 	    // Store the Row/column values 
-				 	}) 
-				 	
-				 	//On cursor move event
-				 	editor.getSession().getSelection().on('changeCursor', function() { 
-				 	    if (editor.$mouseHandler.isMousePressed)  {
-				 	      // the cursor changed using the mouse
-				 	    }
-				 	    // the cursor changed
+				 	editor.getSession().getSelection().on('changeCursor', function() {
 				 	    self.onChangeCursor();
 				 	});
-				 	editor.getSession().on('changeCursor', function() { 
-				 	    if (editor.$mouseHandler.isMousePressed)  {
-				 	      // remove last stored values 
-				 	    }
-				 	    // Store the Row/column values 
-				 	}); 
-
-				 	//On text change event
-					editor.on("change", function(event) {					        
-						//customize					
-			        });
-					
-					//Bind keyboard shorcuts
 					editor.commands.addCommand({
 						name: 'saveFile',
-						bindKey: {
-						win: 'Ctrl-S',
-						mac: 'Command-S',
-						sender: 'editor|cli'
-						},
+						bindKey: {win: 'Ctrl-S', mac: 'Command-S', sender: 'editor|cli'},
 						exec: function(env, args, request) {
 							self.onSave();
 						}
 					});
-					
-					//Done
-			        this.onReady();
 				}
+				//Done
+		        this.onReady();
+			},
+
+			onFocus: function() {
+				this.base(arguments);
+			},
+			
+			onBlur: function() {
+				this.base(arguments);
 			},
 
 			destroy : function() {
 				this.base(arguments);
-			},			
+				this.langTools.resetOptions(this.editor);
+			}
 		}
 	});
-	
-	var computeWorkerPath = function (path) {
-        path = path.replace(/^[a-z]+:\/\/[^\/]+/, "");
-        path = location.protocol + "//" + location.host
-            + (path.charAt(0) == "/" ? "" : location.pathname.replace(/\/[^\/]*$/, ""))
-            + "/" + path.replace(/^[\/]+/, "");
-        return path;
-    };
-    
-	var typeToIcon = function(type) {
-		var cls = "ace-";
-		var suffix;
-		if (type == "?") suffix = "unknown";
-		else if (type == "keyword") suffix = type;
-		else if (type == "identifier") suffix = type;
-		else if (type == "snippet") suffix = "snippet";
-		else if (type == "number" || type == "string" || type == "bool") suffix = type;
-		else if (/^fn\(/.test(type)) suffix = "fn";
-		else if (/^\[/.test(type)) suffix = "array";
-		else suffix = "object";
-		return cls + "completion " + cls + "completion-" + suffix;
-	};
-    
+     
 }());

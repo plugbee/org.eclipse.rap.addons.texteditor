@@ -14,6 +14,11 @@ package org.eclipse.rap.incubator.texteditor.javascript.widget;
 
 import static org.eclipse.rap.rwt.RWT.getClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.rap.incubator.basictext.BasicText;
 import org.eclipse.rap.rwt.client.service.ClientFileLoader;
 import org.eclipse.rap.rwt.remote.Connection;
@@ -42,6 +47,10 @@ public class Javascript extends BasicText {
 	protected void setupClient() {
 		super.setupClient();
 		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_MODE_KEY, ACE_MODE_VALUE));
+		List<IPath> languageResources = new ArrayList<IPath>();
+		languageResources.add(new Path("org/eclipse/rap/incubator/texteditor/javascript/theme-javascript.js"));
+		registerJsResources(languageResources, getClassLoader());
+		loadJsResources(languageResources);
 	}
 
 	@Override
