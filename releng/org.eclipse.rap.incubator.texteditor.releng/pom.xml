@@ -14,6 +14,8 @@
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.java</module>
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.javascript</module>
 		<module>../../examples/org.eclipse.rap.incubator.texteditor.json</module>	
+		<module>../../examples/org.eclipse.rap.incubator.texteditor.html</module>
+		<module>../../examples/org.eclipse.rap.incubator.texteditor.css</module>	
 		<module>./repository</module>
 	</modules>
 	<profiles>
