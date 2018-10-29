@@ -31,6 +31,12 @@
 				<platform.version.name>neon</platform.version.name>
 			</properties>
 		</profile>
+		<profile>
+			<id>platform-photon</id>
+			<properties>
+				<platform.version.name>photon</platform.version.name>
+			</properties>
+		</profile>
 	</profiles>
 	<groupId>texteditor.releng</groupId>
 	<name>org.eclipse.rap.incubator.texteditor.releng</name>

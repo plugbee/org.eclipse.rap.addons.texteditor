@@ -32,7 +32,9 @@ public class Java extends BasicText {
 	public static final String REMOTE_TYPE = "org.eclipse.rap.incubator.texteditor.java.widget.Java";
 	
 	private static final String ACE_MODE_KEY = "org.eclipse.rap.incubator.basictext.ace.mode-java";
-	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/mode-java.js";
+	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/mode-java.js";
+	private static final String ACE_WORKER_KEY = "org.eclipse.rap.incubator.basictext.ace.worker-java";
+	private static final String ACE_WORKER_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/worker-css.js";
 
 	public Java(Composite parent, int style) {
 		super(parent, style);
@@ -47,6 +49,7 @@ public class Java extends BasicText {
 	protected void setupClient() {
 		super.setupClient();
 		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_MODE_KEY, ACE_MODE_VALUE));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_WORKER_KEY, ACE_WORKER_VALUE));
 		List<IPath> languageResources = new ArrayList<IPath>();
 		languageResources.add(new Path("src-js/org/eclipse/rap/incubator/texteditor/java/theme-java.js"));
 		registerJsResources(languageResources, getClassLoader());

@@ -8,8 +8,9 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.rap.ui,
  org.eclipse.rap.incubator.texteditor,
  org.eclipse.rap.incubator.basictext
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.rap.incubator.texteditor.java.internal.Activator
 Export-Package: org.eclipse.rap.incubator.texteditor.java,
  org.eclipse.rap.incubator.texteditor.java.widget
 Import-Package: org.apache.log4j
+Automatic-Module-Name: org.eclipse.rap.incubator.texteditor.java

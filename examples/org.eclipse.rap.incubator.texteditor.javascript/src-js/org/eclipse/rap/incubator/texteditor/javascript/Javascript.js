@@ -34,29 +34,29 @@
 		members : {
 			
 			createEditor : function() {
-				var basePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/';
+				var basePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/';
 				ace.require("ace/config").set("basePath", basePath);
 				var themePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/texteditor/javascript';
 				ace.require("ace/config").set("themePath", themePath);
-				var modePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/';
+				var modePath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/';
 				ace.require("ace/config").set("modePath", modePath);
+				var workerPath = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/';
+				ace.require("ace/config").set("workerPath", workerPath);
 				var editor = this.editor = ace.edit(this.element);
 				if (editor != null) {
 					var editable = this.editable;
 					var guid = this.url;
-			        editor.setOptions({
-			        	enableBasicAutocompletion: true,
-			            enableTextCompleter: true,
-			            enableSnippets: false,
-					    useWorker: false
-		            });
-			        try {
-			        	editor.getSession().setMode("ace/mode/javascript");
-			        } catch(e) {
-			        	alert("A problem occured when setting javascript mode from " + "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/");
-			        }
-					editor.setTheme("ace/theme/javascript");
-					//Default settings
+			        ace.config.loadModule("ace/ext/language_tools", function (module) {
+			        	editor.setOptions({
+			        		mode: "ace/mode/javascript",
+			        		theme:"ace/theme/javascript",
+				            enableBasicAutocompletion: true,
+				            enableTextCompleter: true,
+				            enableKeyWordCompleter: true,
+				            enableSnippets: true,
+						    useWorker: true,
+			            });
+			        });
 					editor.getSession().setUseWrapMode(true);
 				    editor.getSession().setTabSize(4);
 				    editor.getSession().setUseSoftTabs(true);
@@ -80,9 +80,8 @@
 				 	proposals = this.proposals;
 				 	if (this.useSharedWorker) {
 						if (typeof SharedWorker == 'undefined') {
-							alert("Your browser does not support Javascript shared workers. "
-									+ "This feature enables multi-threading in the browser, it will be disabled with your navigator. "
-									+ "The following browsers are supported: Chrome, Firefox, Safari.");
+							console.log("Your browser does not support Javascript shared workers, as a consequence some features will be disabled."
+									+ "For a full-featured user experience, the following browsers are supported: Chrome, Firefox, Safari.");
 						} else {
 							var filePath = 'rwt-resources/src-js/org/eclipse/rap/incubator/basictext/global-index.js';
 							var httpURL = this.computeWorkerPath(filePath);
@@ -136,7 +135,8 @@
 
 			destroy : function() {
 				this.base(arguments);
-				this.langTools.resetOptions(this.editor);
+				if (this.langTools)
+					this.langTools.resetOptions(this.editor);
 			}
 		}
 	});

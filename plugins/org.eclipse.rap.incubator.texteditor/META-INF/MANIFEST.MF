@@ -7,10 +7,11 @@ Bundle-Activator: org.eclipse.rap.incubator.texteditor.internal.Activator
 Require-Bundle: org.eclipse.rap.ui,
  org.eclipse.rap.ui.views,
  org.eclipse.rap.incubator.basictext
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rap.incubator.texteditor,
  org.eclipse.rap.incubator.texteditor.actions,
  org.eclipse.rap.incubator.texteditor.internal
 Bundle-Vendor: PlugBee
 Import-Package: org.apache.log4j
+Automatic-Module-Name: org.eclipse.rap.incubator.texteditor

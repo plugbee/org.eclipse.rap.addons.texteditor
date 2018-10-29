@@ -24,11 +24,11 @@
 	</licenses>
 	<organization>
 		<name>PlugBee</name>
-		<url>http://www.plugbee.com</url>
+		<url>https://www.plugbee.com</url>
 	</organization>
 	<properties>
-		<tycho.version>0.25.0</tycho.version>
-		<xtext.version>2.10.0</xtext.version>
+		<tycho.version>1.2.0</tycho.version>
+		<xtext.version>2.14.0</xtext.version>
 		<xtend.maven.version>2.9.2</xtend.maven.version>
 	</properties>
 	<build>
@@ -329,6 +329,12 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>platform-photon</id>
+			<properties>
+				<platform.version.name>photon</platform.version.name>
+			</properties>
+		</profile>
+		<profile>
 			<id>os-macosx</id>
 			<activation>
 				<os>
@@ -372,6 +378,7 @@
 						<artifactId>target-platform-configuration</artifactId>
 						<version>${tycho.version}</version>
 						<configuration>
+							<executionEnvironment>JavaSE-1.8</executionEnvironment>  
 							<includePackedArtifacts>true</includePackedArtifacts>
 						</configuration>
 					</plugin>

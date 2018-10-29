@@ -32,7 +32,9 @@ public class Html extends BasicText {
 	public static final String REMOTE_TYPE = "org.eclipse.rap.incubator.texteditor.html.widget.Html";
 	
 	private static final String ACE_MODE_KEY = "org.eclipse.rap.incubator.basictext.ace.mode-html";
-	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.4/mode-html.js";
+	private static final String ACE_MODE_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/mode-html.js";
+	private static final String ACE_WORKER_KEY = "org.eclipse.rap.incubator.basictext.ace.worker-html";
+	private static final String ACE_WORKER_VALUE = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/worker-css.js";
 
 	public Html(Composite parent, int style) {
 		super(parent, style);
@@ -47,6 +49,7 @@ public class Html extends BasicText {
 	protected void setupClient() {
 		super.setupClient();
 		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_MODE_KEY, ACE_MODE_VALUE));
+		getClient().getService(ClientFileLoader.class).requireJs(System.getProperty(ACE_WORKER_KEY, ACE_WORKER_VALUE));
 		List<IPath> languageResources = new ArrayList<IPath>();
 		languageResources.add(new Path("src-js/org/eclipse/rap/incubator/texteditor/html/theme-html.js"));
 		registerJsResources(languageResources, getClassLoader());

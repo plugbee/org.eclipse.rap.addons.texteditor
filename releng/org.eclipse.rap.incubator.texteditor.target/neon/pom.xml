@@ -9,8 +9,8 @@
 		<relativePath>../../org.eclipse.rap.incubator.texteditor.releng/parent/pom.xml</relativePath>
 	</parent>
 	<groupId>texteditor.releng</groupId>
-	<artifactId>neon</artifactId>
+	<artifactId>photon</artifactId>
 	<version>0.9.0-SNAPSHOT</version>
-	<name>neon</name>
+	<name>photon</name>
 	<packaging>eclipse-target-definition</packaging>
 </project>
